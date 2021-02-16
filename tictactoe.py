@@ -66,8 +66,6 @@ def computer_move():
 
 	move = 0
 
-	corner_counters = {1:9, 3:7, 7:3, 9:1}
-
 	open_corners = []
 	for i in possible_moves:
 		if i in [1, 3, 7, 9]:
@@ -78,39 +76,26 @@ def computer_move():
 		if i in [2, 4, 6, 8]:
 			open_edges.append(i)
 
-	try:
-		for let in ['X', 'O']:
+	for let in ['X', 'O']:
 
-			for i in possible_moves:
+		for i in possible_moves:
 
-				board_copy = board[:]
-				board_copy[i] = let
+			board_copy = board[:]
+			board_copy[i] = let
 
-				if is_winner(board_copy, let):
-					move = i
-					return move
-				else:
-					for move in corner_counters:
+			if is_winner(board_copy, let):
+				move = i
+				return move
 
-						if move not in possible_moves and corner_counters.get(move) in possible_moves:
-							move = corner_counters.get(move)
-							return move
-						else:
+	if 5 in possible_moves:
+		move = 5 
+		return move
 
-							if 5 in possible_moves:
-								move = 5
-							else:
-								move = random.choice(open_corners)
-								if move in possible_moves:
-									return move
+	if len(open_corners) > 0:
+		move = random.choice(open_corners)
 
-							if len(open_corners) > 0:
-								move = random.choice(open_corners)
-
-							if len(open_edges) > 0:
-								move = random.choice(open_edges)
-	except:
-		move = random.choice(possible_moves)
+	if len(open_edges) > 0:
+		move = random.choice(open_edges)
 
 	return move
 
